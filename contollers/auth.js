@@ -1,17 +1,19 @@
 const expess = require("express");
+const { validationResult } = require("express-validator");
 
 const registerUser = (req, res = expess.response) => {
-  console.log(req);
-
   const { name, email, password } = req.body;
 
-  if (name.length < 5) {
+  //Manejo de errores
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
     return res.status(400).json({
       ok: false,
-      msg: "error name",
+      errors: errors.mapped(),
     });
   }
-  res.json({
+  res.status(200).json({
     ok: true,
     msg: "register",
     name,
@@ -23,7 +25,17 @@ const registerUser = (req, res = expess.response) => {
 const loginUser = (req, res = expess.response) => {
   const { name, email } = req.body;
 
-  res.json({
+  //Manejo de errores
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      ok: false,
+      errors: errors.mapped(),
+    });
+  }
+
+  res.status(200).json({
     ok: true,
     msg: "login",
     name,
@@ -32,7 +44,7 @@ const loginUser = (req, res = expess.response) => {
 };
 
 const renewToken = (req, res = expess.response) => {
-  res.json({
+  res.status(200).json({
     ok: true,
     msg: "renew",
   });
