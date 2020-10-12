@@ -7,6 +7,7 @@ const router = Router();
 const { check } = require("express-validator");
 
 const { registerUser, loginUser, renewToken } = require("../contollers/auth");
+const { validarCampos } = require("../middelewares/validar-campos");
 
 router.post(
   "/new",
@@ -17,6 +18,7 @@ router.post(
     check("password", "El password debe tener al menos 6 caracteres").isLength({
       min: 6,
     }),
+    validarCampos,
   ],
   registerUser
 );
@@ -27,6 +29,7 @@ router.post(
     check("password", "El password debe tener al menos 6 caracteres").isLength({
       min: 6,
     }),
+    validarCampos,
   ],
   loginUser
 );
