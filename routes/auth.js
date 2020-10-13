@@ -8,6 +8,7 @@ const { check } = require("express-validator");
 
 const { registerUser, loginUser, renewToken } = require("../contollers/auth");
 const { validarCampos } = require("../middelewares/validar-campos");
+const { validarJWT } = require("../middelewares/validar-jwt");
 
 router.post(
   "/new",
@@ -34,6 +35,6 @@ router.post(
   loginUser
 );
 
-router.get("/renew", renewToken);
+router.get("/renew", validarJWT, renewToken);
 
 module.exports = router;

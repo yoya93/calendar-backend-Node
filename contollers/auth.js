@@ -87,11 +87,28 @@ const loginUser = async (req, res = express.response) => {
   }
 };
 
-const renewToken = (req, res = express.response) => {
-  res.status(200).json({
-    ok: true,
-    msg: "renew",
-  });
+const renewToken = async (req, res = express.response) => {
+  const { uid, name } = req;
+
+  console.log(uid, name);
+
+  try {
+    const token = await generarJWT(uid, name);
+
+    res.status(201).json({
+      ok: true,
+      uid,
+      name,
+      token,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      ok: false,
+      msg: "Por favor hable con el administrador",
+    });
+  }
 };
 
 module.exports = {
