@@ -2,11 +2,22 @@ const express = require("express");
 const Evento = require("../models/Evento");
 
 // Obtener eventos
-const getEvents = (req, res = express.response) => {
-  res.status(200).json({
-    ok: true,
-    msg: "getEvents",
-  });
+const getEvents = async (req, res = express.response) => {
+  const events = await Evento.find().populate("user", "name"); //abre la referencia al user y solo quiero ver el name
+
+  try {
+    res.status(200).json({
+      ok: true,
+      events: events,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      ok: false,
+      msg: "Por favor hable con el administrador",
+    });
+  }
 };
 
 // Crear un nuevo evento
