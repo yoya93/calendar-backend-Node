@@ -1,5 +1,6 @@
 const express = require("express");
 require("dotenv").config();
+const cors = require("cors");
 
 const { dbConnection } = require("./db/config");
 
@@ -7,8 +8,10 @@ const { dbConnection } = require("./db/config");
 const app = express();
 
 // Base de datos
-
 dbConnection();
+
+//CORS
+app.use(cors());
 
 // Directorio Publico
 
@@ -19,6 +22,7 @@ app.use(express.json());
 
 // Rutas
 app.use("/api/auth", require("./routes/auth")); //login , register and renew (token)
+app.use("/api/events", require("./routes/events")); //CRUD  de la app
 
 //Escuchar peticiones
 app.listen(4000, () => {
