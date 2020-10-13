@@ -1,5 +1,6 @@
 const express = require("express");
 
+// Obtener eventos
 const getEvents = (req, res = express.response) => {
   res.status(200).json({
     ok: true,
@@ -7,15 +8,15 @@ const getEvents = (req, res = express.response) => {
   });
 };
 
+// Crear un nuevo evento
 const createEvent = (req, res = express.response) => {
-  console.log(req.body);
-
   res.status(200).json({
     ok: true,
     msg: "createEvent",
   });
 };
 
+//Actualizar un evento
 const actEvents = (req, res = express.response) => {
   res.status(200).json({
     ok: true,
@@ -23,6 +24,7 @@ const actEvents = (req, res = express.response) => {
   });
 };
 
+//Borrar un evento
 const deleteEvents = (req, res = express.response) => {
   res.status(200).json({
     ok: true,
