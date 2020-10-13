@@ -13,6 +13,7 @@ const {
 } = require("../contollers/events");
 const { validarCampos } = require("../middelewares/validar-campos");
 const { validarJWT } = require("../middelewares/validar-jwt");
+const { isDate } = require("../helpers/isDate");
 
 //Todos tienen que pasar por la validacion del JWT
 router.use(validarJWT);
@@ -25,6 +26,8 @@ router.post(
   [
     //middlewares
     check("title", "El title es obligatorio").not().isEmpty(),
+    check("start", "El tiempo de inicio es obligatorio").custom(isDate),
+    check("end", "El tiempo de finalizacion es obligatorio").custom(isDate),
 
     validarCampos,
   ],
