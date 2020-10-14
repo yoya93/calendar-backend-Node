@@ -34,7 +34,18 @@ router.post(
   createEvent
 );
 //Actualizar un evento
-router.put("/:id", actEvents);
+router.put(
+  "/:id",
+  [
+    //middlewares
+    check("title", "El title es obligatorio").not().isEmpty(),
+    check("start", "El tiempo de inicio es obligatorio").custom(isDate),
+    check("end", "El tiempo de finalizacion es obligatorio").custom(isDate),
+
+    validarCampos,
+  ],
+  actEvents
+);
 //Borrar un evento
 router.delete("/:id", deleteEvents);
 
