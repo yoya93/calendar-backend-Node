@@ -25,6 +25,6 @@ app.use("/api/auth", require("./routes/auth")); //login , register and renew (to
 app.use("/api/events", require("./routes/events")); //CRUD  de la app
 
 //Escuchar peticiones
-app.listen(4000, () => {
+app.listen(process.env.PORT, () => {
   console.log(`Servidor corriendo en el puerto ${process.env.PORT}`);
 });

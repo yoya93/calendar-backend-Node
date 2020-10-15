@@ -65,10 +65,7 @@ const actEvents = async (req, res = express.response) => {
     }
 
     if (event.user.toString() !== uid) {
-      console.log(uid);
-      console.log(event.user.toString());
-
-      res.status(401).json({
+      return res.status(401).json({
         ok: false,
         msg: "El user no tiene ese privilegio",
       });
@@ -82,8 +79,6 @@ const actEvents = async (req, res = express.response) => {
     const eventActualizado = await Evento.findByIdAndUpdate(eventId, newEvent, {
       new: true,
     });
-
-    console.log(eventActualizado);
 
     res.status(200).json({
       ok: true,
@@ -100,11 +95,41 @@ const actEvents = async (req, res = express.response) => {
 };
 
 //Borrar un evento
-const deleteEvents = (req, res = express.response) => {
-  res.status(200).json({
-    ok: true,
-    msg: "deleteEvents",
-  });
+const deleteEvents = async (req, res = express.response) => {
+  const eventId = req.params.id; //Obtengo el id de la url
+  const uid = req.uid;
+
+  try {
+    const event = await Evento.findById(eventId); //lo trae dew la BD
+
+    if (!event) {
+      res.status(404).json({
+        ok: false,
+        msg: "Evento no existe por ese ID",
+      });
+    }
+
+    if (event.user.toString() !== uid) {
+      return res.status(401).json({
+        ok: false,
+        msg: "El user no tiene ese privilegio",
+      });
+    }
+
+    const eventActualizado = await Evento.findByIdAndDelete(eventId);
+
+    res.status(200).json({
+      ok: true,
+      eventId: eventActualizado,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      ok: false,
+      msg: "Por favor hable con el administrador",
+    });
+  }
 };
 
 module.exports = {
